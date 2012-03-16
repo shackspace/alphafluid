@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# AvrStudio Solution File, Format Version 11.00
+Project("{D1100916-62DA-4D80-A9B4-55A1E7CCEEB3}") = "Matemat", "AVRGCC3\Matemat.avrgccproj", "{88A315FF-6D31-4C8E-B16A-7592DC891F5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88A315FF-6D31-4C8E-B16A-7592DC891F5D}.Debug|AVR.ActiveCfg = Debug|AVR
+		{88A315FF-6D31-4C8E-B16A-7592DC891F5D}.Debug|AVR.Build.0 = Debug|AVR
+		{88A315FF-6D31-4C8E-B16A-7592DC891F5D}.Release|AVR.ActiveCfg = Release|AVR
+		{88A315FF-6D31-4C8E-B16A-7592DC891F5D}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
