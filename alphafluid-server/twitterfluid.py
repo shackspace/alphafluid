@@ -67,21 +67,21 @@ class twitterfluid(threading.Thread):
 		rnd = random.randint(0,11) 
 		
 		if (rnd == 0):
-			self.api.PostUpdate("Seems like someone just bought a Bottle of " + drink + "."  + meta)
+			self.api.PostUpdate("Seems like someone just bought a bottle of " + drink + "."  + meta)
 		elif (rnd == 1):
 			self.api.PostUpdate("Oh yeah! That's one nice " + drink + " you just pulled out of me."  + meta)
 		elif (rnd == 2):
-			self.api.PostUpdate("That guy just put his filthy coins into my slit and asked me for a " + drink + "."  + meta)
+			self.api.PostUpdate("Someone just put his filthy coins into my money slot and asked me for a " + drink + "."  + meta)
 		elif (rnd == 3):
-			self.api.PostUpdate("Seems like someone really craved for " + drink + "."  + meta)
+			self.api.PostUpdate("Seems like someone really craved a " + drink + "."  + meta)
 		elif (rnd == 4):
-			self.api.PostUpdate("Next time be more gently when pulling out your " + drink + ", please!"  + meta)
+			self.api.PostUpdate("Next time be more gentle pulling out your " + drink + ", please!"  + meta)
 		elif (rnd == 5):
-			self.api.PostUpdate("I noticed your really soft skin when you pressed my button for " + drink + "."  + meta)
+			self.api.PostUpdate("I noticed your really soft skin when you pressed my " + drink + " button."  + meta)
 		elif (rnd == 6):
 			self.api.PostUpdate("Your awesome appeareance made some " + drink + " drop out of me!"  + meta)
 		elif (rnd == 7):
-			self.api.PostUpdate("Here's your change, there's your " + drink + "! Have a nice day."  + meta)
+			self.api.PostUpdate("Here's your change, here's your " + drink + "! Have a nice day."  + meta)
 		elif (rnd == 8):
 			self.api.PostUpdate("Please stop touching my buttons! You made a bottle of " + drink + " come out of my slot!"  + meta)
 		elif (rnd == 9):
@@ -100,11 +100,11 @@ class twitterfluid(threading.Thread):
 		if (rnd == 0):
 			self.api.PostUpdate("Oh noes! I ran out of " + drink + "! Help me @tensau!"  + meta)
 		elif (rnd == 1):
-			self.api.PostUpdate("Hey @tensau! How about sticking some bottles of " + drink + " inside me?"  + meta)
+			self.api.PostUpdate("Hey @tensau! How about filling me up with some " + drink + " bottles?"  + meta)
 		elif (rnd == 2):
 			self.api.PostUpdate("I hereby invite @tensau to fill me up with whatever liquid he wants, as long as it looks like " + drink + "."  + meta)
 		elif (rnd == 3):
-			self.api.PostUpdate("I'm thirsty. So are my customers. @tensau should really fill me up with " + drink + "."  + meta)
+			self.api.PostUpdate("I'm thirsty. So are my customers. @tensau should really refill " + drink + "."  + meta)
 		elif (rnd == 4):
 			self.api.PostUpdate("I'm so horny, I could take at least ten bottles of " + drink + " up my shaft. And I want @tensau to do it!"  + meta)
 		elif (rnd == 5):
