@@ -87,17 +87,17 @@ void push(uint8_t data){
 	for(uint8_t j=0; j<8; j++){
 		SEG_DATA_PORT &= ~(1<<SEG_DATA);
 		SEG_DATA_PORT |= (((~data & (1<<j))>0)<<SEG_DATA);
-		_delay_us(20);
+		_delay_us(5);
 		SEG_SCK_PORT |= (1<<SEG_SCK);
-		_delay_us(20);
+		_delay_us(5);
 		SEG_SCK_PORT &= ~(1<<SEG_SCK);
-		_delay_us(20);
+		_delay_us(2);
 	}
 }
 
 void latch(){
 	SEG_STORE_PORT |= (1<<SEG_STORE);
-	_delay_us(20);
+	_delay_us(5);
 	SEG_STORE_PORT &= ~(1<<SEG_STORE);
 }
 
