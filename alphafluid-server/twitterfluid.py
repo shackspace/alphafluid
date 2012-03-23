@@ -31,15 +31,15 @@ class twitterfluid(threading.Thread):
 		while (self.connection != None):
 			time.sleep(1)
 			count += 1
-			if count>=30 and self.connection != None:
+			if count>=60 and self.connection != None:
 				count = 0
 				print "checking mentions ",
 				self.lastmentionchanged = 0
 				ment = self.fetch_mention()
 				print "current: " + ment
 				if self.lastmentionchanged:
-					print "sending mentions"
-					self.connection.send("/i/t/"+ment+"\r\n")
+					print "sending mention: " + ment
+				self.connection.send("/i/t/"+ment+"\r\n")
 			
 
 	def map_shaft(self, shaft_number):
