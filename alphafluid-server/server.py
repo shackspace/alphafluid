@@ -7,9 +7,12 @@ import sys
 import time
 import urllib
 import twitterfluid
+import conf
 
 tw = twitterfluid.twitterfluid()
 running = True
+
+apikey = conf.read('key.cfg','lick_api_key')
 
 def log(msg):
 	f = open("fluid.log","a")
@@ -29,10 +32,10 @@ signal.signal(signal.SIGTERM, handler)
 signal.signal(signal.SIGINT, handler)
 
 def send_bought(st):
-		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/sellProduct?apikey=382B6E63714B3275306D454B2F6544656D6A666A3974617A74386F3D&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
+		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/sellProduct?apikey=".apikey."&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
 
 def send_empty(st):
-		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/schachtLeer?apikey=382B6E63714B3275306D454B2F6544656D6A666A3974617A74386F3D&automat_id=1&schacht_id=" + str(mapping[int(st)]))
+		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/schachtLeer?apikey=".apikey."&automat_id=1&schacht_id=" + str(mapping[int(st)]))
 
 def lick_get_level(shaft):
 	lines = urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/getFuellstand?automat_id=1&schacht_id="+str(shaft)).readlines()
