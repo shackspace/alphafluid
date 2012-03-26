@@ -11,9 +11,9 @@ class twitterfluid(threading.Thread):
 		self.api = twitter.Api()
 		self.api = twitter.Api(
 				consumer_key=conf.read('key.cfg','twitter_consumer_key'),
-				consumer_secret=conf.read('key.cfg','twitter_consumer_key'),
-				access_token_key=conf.read('key.cfg','twitter_consumer_key'),
-				access_token_secret=conf.read('key.cfg','twitter_consumer_key'))
+				consumer_secret=conf.read('key.cfg','twitter_consumer_secret'),
+				access_token_key=conf.read('key.cfg','twitter_access_token_key'),
+				access_token_secret=conf.read('key.cfg','twitter_access_token_secret'))
 		self.mentionid = 0
 		self.lastmention = "forever alone"
 		self.connection = None
