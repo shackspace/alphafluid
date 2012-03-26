@@ -2,6 +2,7 @@
 import time,threading
 import twitter
 import random
+import conf
 
 class twitterfluid(threading.Thread):
 	def __init__(self):
@@ -9,10 +10,10 @@ class twitterfluid(threading.Thread):
 		self.version = '0.0.1'
 		self.api = twitter.Api()
 		self.api = twitter.Api(
-				consumer_key='jxZEgWDVdwvvq6QcvzB73w',
-				consumer_secret='Wq03yUGV8v0ix5TIjYPEwYkxErNxBIEuTslPQbRE',
-				access_token_key='518774696-2UtNmYWXkOp5FZjYvNpITNemUEf0m6K6Xi7TisxV',
-				access_token_secret='oEulflrYiisN7zFoZV3vnWyLpMev82BDeH6n3vqKQpc')
+				consumer_key=conf.read('key.cfg','twitter_consumer_key'),
+				consumer_secret=conf.read('key.cfg','twitter_consumer_key'),
+				access_token_key=conf.read('key.cfg','twitter_consumer_key'),
+				access_token_secret=conf.read('key.cfg','twitter_consumer_key'))
 		self.mentionid = 0
 		self.lastmention = "forever alone"
 		self.connection = None
