@@ -2,6 +2,7 @@
 import time,threading
 import twitter
 import random
+import conf
 
 class twitterfluid(threading.Thread):
 	def __init__(self):
@@ -9,10 +10,10 @@ class twitterfluid(threading.Thread):
 		self.version = '0.0.1'
 		self.api = twitter.Api()
 		self.api = twitter.Api(
-				consumer_key='jxZEgWDVdwvvq6QcvzB73w',
-				consumer_secret='Wq03yUGV8v0ix5TIjYPEwYkxErNxBIEuTslPQbRE',
-				access_token_key='518774696-2UtNmYWXkOp5FZjYvNpITNemUEf0m6K6Xi7TisxV',
-				access_token_secret='oEulflrYiisN7zFoZV3vnWyLpMev82BDeH6n3vqKQpc')
+				consumer_key=conf.read('key.cfg','twitter_consumer_key'),
+				consumer_secret=conf.read('key.cfg','twitter_consumer_secret'),
+				access_token_key=conf.read('key.cfg','twitter_access_token_key'),
+				access_token_secret=conf.read('key.cfg','twitter_access_token_secret'))
 		self.mentionid = 0
 		self.lastmention = "forever alone"
 		self.connection = None
@@ -31,15 +32,15 @@ class twitterfluid(threading.Thread):
 		while (self.connection != None):
 			time.sleep(1)
 			count += 1
-			if count>=30 and self.connection != None:
+			if count>=60 and self.connection != None:
 				count = 0
 				print "checking mentions ",
 				self.lastmentionchanged = 0
 				ment = self.fetch_mention()
 				print "current: " + ment
 				if self.lastmentionchanged:
-					print "sending mentions"
-					self.connection.send("/i/t/"+ment+"\r\n")
+					print "sending mention: " + ment
+				self.connection.send("/i/t/"+ment+"\r\n")
 			
 
 	def map_shaft(self, shaft_number):
