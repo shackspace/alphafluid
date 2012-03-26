@@ -11,6 +11,7 @@
 
 #define AUX_PORT	PORTC
 #define AUX_PIN		PINC
+#define AUX_DDR		DDRC
 
 #define AUX_DOOR	0
 
