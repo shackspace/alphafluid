@@ -32,10 +32,10 @@ signal.signal(signal.SIGTERM, handler)
 signal.signal(signal.SIGINT, handler)
 
 def send_bought(st):
-		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/sellProduct?apikey=".apikey."&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
+		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/sellProduct?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
 
 def send_empty(st):
-		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/schachtLeer?apikey=".apikey."&automat_id=1&schacht_id=" + str(mapping[int(st)]))
+		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/schachtLeer?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]))
 
 def lick_get_level(shaft):
 	lines = urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/getFuellstand?automat_id=1&schacht_id="+str(shaft)).readlines()

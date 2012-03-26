@@ -6,5 +6,5 @@ def read(file, value):
 
 	for line in f.readlines():
 		if line.startswith(value):
-			res = line.split("=")
+			res = line.split("=")[-1]
 			return res.strip()
