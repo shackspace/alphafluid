@@ -5,9 +5,13 @@ import signal
 import socket
 import sys
 import time
-import urllib
+import urllib2
+import subprocess
+import random
 import twitterfluid
 import conf
+
+soundlist = ["dank.wav", "zelda.wav", "suit.wav"]
 
 tw = twitterfluid.twitterfluid()
 running = True
@@ -31,14 +35,17 @@ def handler(signum, frame):
 signal.signal(signal.SIGTERM, handler)
 signal.signal(signal.SIGINT, handler)
 
+def mat_play(file):
+	subprocess.Popen(["./play "+file], stdout=subprocess.PIPE, shell=True)
+
 def send_bought(st):
-		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/sellProduct?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
+		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/sellProduct?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
 
 def send_empty(st):
-		urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/schachtLeer?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]))
+		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/schachtLeer?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]))
 
 def lick_get_level(shaft):
-	lines = urllib.urlopen("http://appserv.tutschonwieder.net:8080/apex/prod/getFuellstand?automat_id=1&schacht_id="+str(shaft)).readlines()
+	lines = urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/getFuellstand?automat_id=1&schacht_id="+str(shaft)).readlines()
 	for line in lines:
 		print line
 		#if line.startswith('{"\"tensai-prod\".lick_api.getfuellstand(/*in:automat_id*/:1,/*in:schacht_id*/:2)":'):
@@ -74,6 +81,7 @@ def parse(line, conn):
 	if line[3] == 'b':		#buy
 		send_bought(line[5])
 		log("Gekauft: " + line[5])
+		mat_play(random.choice(soundlist))
 		tw.tweet_bought(int(line[5]), "")
 		mat_send_values(conn)
 	elif line[3] == 'o': 	#offline buys (no connection)
