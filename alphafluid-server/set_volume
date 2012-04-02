@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "mpc volume $*; exit" | nc 10.42.1.157 23

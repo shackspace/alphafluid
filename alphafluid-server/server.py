@@ -11,7 +11,10 @@ import random
 import twitterfluid
 import conf
 
-soundlist = ["dank.wav", "zelda.wav", "suit.wav"]
+soundlist = ["dank.wav", "zelda.wav", "suit.wav", "hlbroken.wav"]
+ambientlist = ["alien_blipper.wav", "computalk1.wav", "noise2.mp3", "computalk2.wav", "steamburst1.wav"]
+
+nextambient = time.time() + 10
 
 tw = twitterfluid.twitterfluid()
 running = True
@@ -35,8 +38,17 @@ def handler(signum, frame):
 signal.signal(signal.SIGTERM, handler)
 signal.signal(signal.SIGINT, handler)
 
-def mat_play(file):
-	subprocess.Popen(["./play "+file], stdout=subprocess.PIPE, shell=True)
+def mat_play(file, volume):
+	subprocess.Popen(["./set_volume "+str(volume)], stdout=subprocess.PIPE, shell=True)
+	subprocess.Popen(["./play_remote "+file], stdout=subprocess.PIPE, shell=True)
+
+
+def mat_checkambient():
+	global nextambient
+	if (time.time() > nextambient):
+		nextambient = time.time() + random.randint(45,200)
+		mat_play(random.choice(ambientlist), 3)
+		print "played ambient sound"
 
 def send_bought(st):
 		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/sellProduct?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
@@ -81,7 +93,7 @@ def parse(line, conn):
 	if line[3] == 'b':		#buy
 		send_bought(line[5])
 		log("Gekauft: " + line[5])
-		mat_play(random.choice(soundlist))
+		mat_play(random.choice(soundlist), 10)
 		tw.tweet_bought(int(line[5]), "")
 		mat_send_values(conn)
 	elif line[3] == 'o': 	#offline buys (no connection)
@@ -121,6 +133,7 @@ while running:
 		tw.setConnection(connection)
 		while running:
 			data = connection.recv(1)
+			mat_checkambient()
 			if data:
 				line += data[0]
 				
@@ -136,4 +149,5 @@ while running:
 				break
 	finally:
 		connection.close()
+sock.close()
 

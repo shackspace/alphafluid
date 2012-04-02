@@ -1,2 +1,2 @@
 #!/bin/sh
-echo "mpc clear; mpc update; mpc add $*; mpc volume 15; mpc play; exit" | nc 10.42.1.157 23
+echo "mpc clear; mpc update; mpc add $*; mpc volume 10; mpc play; exit" | nc 10.42.1.157 23
