@@ -50,9 +50,11 @@ def mat_play(file, volume):
 def mat_checkambient():
 	global nextambient
 	if (time.time() > nextambient):
-		nextambient = time.time() + random.randint(45,200)
-		mat_play(random.choice(get_sounds("randomsounds")), 3)
-		print "played ambient sound"
+		rnd = random.randint(45,200)
+		nextambient = time.time() + rnd 
+		sound = random.choice(get_sounds("randomsounds"))
+		mat_play(sound, 3)
+		print "played ambient sound: " + sound + ", next after: " + str(rnd)
 
 def send_bought(st):
 		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/sellProduct?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
