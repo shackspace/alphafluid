@@ -21,6 +21,7 @@ running = True
 
 apikey = conf.read('key.cfg','lick_api_key')
 
+
 def log(msg):
 	f = open("fluid.log","a")
 	f.write(time.asctime(time.localtime(time.time()+3600*1)))
@@ -38,6 +39,9 @@ def handler(signum, frame):
 signal.signal(signal.SIGTERM, handler)
 signal.signal(signal.SIGINT, handler)
 
+def get_sounds(value):
+	return conf.read("sound.cfg",value).split(",")
+
 def mat_play(file, volume):
 	subprocess.Popen(["./set_volume "+str(volume)], stdout=subprocess.PIPE, shell=True)
 	subprocess.Popen(["./play_remote "+file], stdout=subprocess.PIPE, shell=True)
@@ -47,7 +51,7 @@ def mat_checkambient():
 	global nextambient
 	if (time.time() > nextambient):
 		nextambient = time.time() + random.randint(45,200)
-		mat_play(random.choice(ambientlist), 3)
+		mat_play(random.choice(get_sounds("randomsounds")), 3)
 		print "played ambient sound"
 
 def send_bought(st):
@@ -93,7 +97,7 @@ def parse(line, conn):
 	if line[3] == 'b':		#buy
 		send_bought(line[5])
 		log("Gekauft: " + line[5])
-		mat_play(random.choice(soundlist), 10)
+		mat_play(random.choice(get_sounds("buysounds")), 10)
 		tw.tweet_bought(int(line[5]), "")
 		mat_send_values(conn)
 	elif line[3] == 'o': 	#offline buys (no connection)
