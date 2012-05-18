@@ -3,6 +3,8 @@ import time,threading
 import twitter
 import random
 import conf
+import sys
+from tools import *
 
 class twitterfluid(threading.Thread):
 	def __init__(self):
@@ -40,7 +42,14 @@ class twitterfluid(threading.Thread):
 				print "current: " + ment
 				if self.lastmentionchanged:
 					print "sending mention: " + ment
-				self.connection.send("/i/t/"+ment+"\r\n")
+				try:
+					self.connection.send("/i/t/"+ment.encode('ascii','ignore')+"\r\n")
+				except:
+					log(str(sys.exc_info()[0]))
+					log(str(sys.exc_info()[1]))
+					#log(sys.exc_info()[2])
+					log("sending mention to matomat failed!")
+
 			
 
 	def map_shaft(self, shaft_number):

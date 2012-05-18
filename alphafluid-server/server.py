@@ -10,6 +10,8 @@ import subprocess
 import random
 import twitterfluid
 import conf
+import traceback
+from tools import *
 
 soundlist = ["dank.wav", "zelda.wav", "suit.wav", "hlbroken.wav"]
 ambientlist = ["alien_blipper.wav", "computalk1.wav", "noise2.mp3", "computalk2.wav", "steamburst1.wav"]
@@ -21,13 +23,6 @@ running = True
 
 apikey = conf.read('key.cfg','lick_api_key')
 
-
-def log(msg):
-	f = open("fluid.log","a")
-	f.write(time.asctime(time.localtime(time.time()+3600*1)))
-	f.write(" ] " + msg + "\n")
-	f.close()
-	print msg
 
 mapping = (1,2,3,4,26,27)
 
@@ -50,7 +45,7 @@ def mat_play(file, volume):
 def mat_checkambient():
 	global nextambient
 	if (time.time() > nextambient):
-		rnd = random.randint(45,200)
+		rnd = random.randint(5*60,15*60)
 		nextambient = time.time() + rnd 
 		sound = random.choice(get_sounds("randomsounds"))
 		mat_play(sound, 3)
@@ -90,7 +85,13 @@ def mat_send_values(conn):
 def mat_send_mention(conn):
 	log("sending mentions")
 	txt = tw.fetch_mention()
-	conn.send("/i/t/" + txt + "\r\n")
+	try:
+		conn.send("/i/t/"+txt.encode('ascii','ignore')+"\r\n")
+	except:
+		log(str(sys.exc_info()[0]))
+		log(str(sys.exc_info()[1]))
+		#log(sys.exc_info()[2])
+		log("sending mention to matomat failed!")
 
 def parse(line, conn):
 	if not line.startswith("/o/"):
