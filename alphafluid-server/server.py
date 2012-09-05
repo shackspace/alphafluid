@@ -54,26 +54,35 @@ def mat_checkambient():
 		print "played ambient sound: " + sound + ", next after: " + str(rnd)
 
 def send_bought(st):
+	try:
 		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/sellProduct?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
+	except:
+		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def send_empty(st):
+	try:
 		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/schachtLeer?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]))
+	except:
+		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def lick_get_level(shaft):
-	lines = urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/getFuellstand?automat_id=1&schacht_id="+str(shaft)).readlines()
-	for line in lines:
-		print line
-		#if line.startswith('{"\"tensai-prod\".lick_api.getfuellstand(/*in:automat_id*/:1,/*in:schacht_id*/:2)":'):
-		if line.find("tensai-prod") >= 0 and line.find(".lick_api.getfuellstand(") >= 0 and line.find("in:automat_id"):
-			rpart = line.split(":")[-1]
-			#print rpart
-			if(rpart[-1] == "}"):
-				numonly = rpart[0:-1]
-				print numonly
-				num = int(numonly)
-				if num < 0:
-					num = 0
-				return num
+	try:
+		lines = urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/getFuellstand?automat_id=1&schacht_id="+str(shaft)).readlines()
+		for line in lines:
+			print line
+			#if line.startswith('{"\"tensai-prod\".lick_api.getfuellstand(/*in:automat_id*/:1,/*in:schacht_id*/:2)":'):
+			if line.find("tensai-prod") >= 0 and line.find(".lick_api.getfuellstand(") >= 0 and line.find("in:automat_id"):
+				rpart = line.split(":")[-1]
+				#print rpart
+				if(rpart[-1] == "}"):
+					numonly = rpart[0:-1]
+					print numonly
+					num = int(numonly)
+					if num < 0:
+						num = 0
+					return num
+	except:
+		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 
 def mat_send_values(conn):
