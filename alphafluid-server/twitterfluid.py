@@ -20,21 +20,25 @@ class twitterfluid(threading.Thread):
 		self.lastmention = "forever alone"
 		self.connection = None
 		self.lastmentionchanged = 0
+		self.running = True
+
+	def stop(self):
+		self.running = False
 
 	def setConnection(self, conn):
 		self.connection = conn
 		
-		self.start()
+		#self.start()
 	
 	def setDisconnected(self):
 		self.connection = None
 	
 	def run(self):
 		count = 0
-		while (self.connection != None):
+		while (self.running):
 			time.sleep(1)
 			count += 1
-			if count>=60 and self.connection != None:
+			if count>=60 and self.connection != None and self.running:
 				count = 0
 				print "checking mentions ",
 				self.lastmentionchanged = 0

@@ -20,6 +20,7 @@ nextambient = time.time() + 10
 
 tw = twitterfluid.twitterfluid()
 running = True
+connected = False
 
 apikey = conf.read('key.cfg','lick_api_key')
 
@@ -28,6 +29,7 @@ mapping = (1,2,3,4,26,27)
 
 def handler(signum, frame):
 	tw.setDisconnected()
+	tw.stop()
 	running = False
 	print "Trying to stop!"
 
@@ -77,9 +79,17 @@ def lick_get_level(shaft):
 def mat_send_values(conn):
 	log("sending values")
 	
-	for i in range(0,6):
-		time.sleep(0.2)
-		conn.send("/i/s/"+str(i)+" "+str(lick_get_level(mapping[i]))+"\r\n")
+	try:
+		for i in range(0,6):
+			time.sleep(0.2)
+			conn.send("/i/s/"+str(i)+" "+str(lick_get_level(mapping[i]))+"\r\n")
+	except:
+		log(str(sys.exc_info()[0]))
+		log(str(sys.exc_info()[1]))
+		#log(sys.exc_info()[2])
+		log("sending values to matomat failed!")
+		log("FORCE DISCONNECT " + client_address[0])
+		connected = False
 
 
 def mat_send_mention(conn):
@@ -92,6 +102,8 @@ def mat_send_mention(conn):
 		log(str(sys.exc_info()[1]))
 		#log(sys.exc_info()[2])
 		log("sending mention to matomat failed!")
+		log("FORCE DISCONNECT " + client_address[0])
+		connected = False
 
 def parse(line, conn):
 	if not line.startswith("/o/"):
@@ -130,31 +142,33 @@ server_address = ('', 1337)
 sock.bind(server_address)
 print 'starting up on %s port %s' % sock.getsockname()
 sock.listen(1)
+tw.start()
 while running:
 	print 'waiting for a connection'
+	log('waiting for a connection')
 	connection, client_address = sock.accept()
-	try:
-		line = ""
-		print 'client connected:', client_address
-		log("CONNECT " + client_address[0])
-		tw.setConnection(connection)
-		while running:
-			data = connection.recv(1)
-			mat_checkambient()
-			if data:
-				line += data[0]
-				
-				if data[0] == '\n' or data[0] == '\r':
-					if line[0] != 'd' and line[0] != '\n' and line[0] != '\r':
-						print line
-					parse(line,connection)
-					line = ""
-			else:
-				tw.setDisconnected()
-				print 'client disconnected:', client_address
-				log("DISCONNECT " + client_address[0])
-				break
-	finally:
-		connection.close()
+	line = ""
+	print 'client connected:', client_address
+	log("CONNECT " + client_address[0])
+	tw.setConnection(connection)
+	connected = True;
+	while (running and connected):
+		data = connection.recv(1)
+		mat_checkambient()
+		if data:
+			line += data[0]
+			
+			if data[0] == '\n' or data[0] == '\r':
+				if line[0] != 'd' and line[0] != '\n' and line[0] != '\r':
+					print line
+				parse(line,connection)
+				line = ""
+		else:
+			connected = False
+			break
+	tw.setDisconnected()
+	print 'client disconnected:', client_address
+	log("DISCONNECT " + client_address[0])
+	connection.close()
 sock.close()
 
