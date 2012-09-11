@@ -57,7 +57,7 @@ class twitterfluid(threading.Thread):
 			
 
 	def map_shaft(self, shaft_number):
-		self.shafts = ["Water", "TradeWinds", "Afri Cola", "Lift", "Club Mate", "Club Mate"]
+		self.shafts = ["Water", "Mountain Dew", "Afri Cola", "Lift", "Club Mate", "Club Mate"]
 		return self.shafts[shaft_number]
 	
 	def fetch_mention(self):
