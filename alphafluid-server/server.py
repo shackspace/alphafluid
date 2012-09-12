@@ -139,7 +139,7 @@ def parse(line, conn):
 		mat_send_values(conn)
 		mat_send_mention(conn)
 	elif line[3] == 'd':	#door
-		if(line[5] == 0):
+		if(line[5] == '0'):
 			log("Door Closed")
 			mat_play(random.choice(get_sounds("randomsounds")), 5)
 		else:
