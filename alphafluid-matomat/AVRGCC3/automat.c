@@ -21,6 +21,8 @@ void mat_init(){
 	mat_door_status = 0;
 	mat_door = 0; //closed
 	
+	MAT_DOOR_PORT |= (1<<MAT_DOOR); //PULL-UP
+	
 	/* und nun mit 16-Bit Array */
 	//eeprom_read_block (mat_counter, MAT_COUNTER_ADDRESS, sizeof(mat_counter));
 	
@@ -50,7 +52,7 @@ void mat_read(){
 	mat_status[10] += (MAT_11_PIN & (1<<MAT_11))?((mat_status[10]==255)?0:1):-mat_status[10];
 	mat_status[11] += (MAT_12_PIN & (1<<MAT_12))?((mat_status[11]==255)?0:1):-mat_status[11];
 	
-	mat_door_status += (MAT_12_PIN & (1<<MAT_12))?((mat_door_status==255)?0:1):-mat_door_status;
+	mat_door_status += (MAT_DOOR_PIN & (1<<MAT_DOOR))?((mat_door_status==255)?0:1):-mat_door_status;
 	
 }
 
@@ -108,7 +110,7 @@ void mat_check(){
 	
 	//check door
 	
-	if(mat_door_status==254){
+	if(mat_door_status==255){
 		if(mat_door == 0){
 			mat_door = 1;	//just opened
 			char tmp[20];
