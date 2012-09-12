@@ -89,25 +89,23 @@ void mat_check(){
 	
 	//check empty
 	
-	for(uint8_t i=6; i<12;i++){
+	if(mat_door == 0){ //doing it here suppresses resensing of empty shafts if a shaft went empty while open
+		for(uint8_t i=6; i<12;i++){
 		
-		if(mat_status[i]==254){
-			mat_counter[i]=0;
-			if(isConnected()){
-				char tmp[20];
-				strcpy(tmp, "/o/e/");	//out,empty
-				itoa(i-6,tmp+strlen(tmp),10);
-				strcpy(tmp+strlen(tmp), "\r\n");
-				uart_puts(tmp);
+			if(mat_status[i]==254){
+				mat_counter[i]=0;
+				if(isConnected()){
+					char tmp[20];
+					strcpy(tmp, "/o/e/");	//out,empty
+					itoa(i-6,tmp+strlen(tmp),10);
+					strcpy(tmp+strlen(tmp), "\r\n");
+					uart_puts(tmp);
+				}
+				/* Datenblock in EEPROM schreiben */
+				//eeprom_write_block (mat_counter, MAT_COUNTER_ADDRESS, sizeof(mat_counter));
 			}
-			
-			/* Datenblock in EEPROM schreiben */
-			//eeprom_write_block (mat_counter, MAT_COUNTER_ADDRESS, sizeof(mat_counter));
-			
 		}
-		
-	}
-	
+	}	
 	//check door
 	
 	if(mat_door_status==255){
