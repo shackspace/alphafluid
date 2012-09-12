@@ -12,10 +12,14 @@ uint8_t mat_status[12];
 uint16_t mat_counter[6];
 uint16_t mat_offline_counter[6];
 
+uint8_t mat_door_status, mat_door;
+
 
 
 void mat_init(){
 	
+	mat_door_status = 0;
+	mat_door = 0; //closed
 	
 	/* und nun mit 16-Bit Array */
 	//eeprom_read_block (mat_counter, MAT_COUNTER_ADDRESS, sizeof(mat_counter));
@@ -46,6 +50,8 @@ void mat_read(){
 	mat_status[10] += (MAT_11_PIN & (1<<MAT_11))?((mat_status[10]==255)?0:1):-mat_status[10];
 	mat_status[11] += (MAT_12_PIN & (1<<MAT_12))?((mat_status[11]==255)?0:1):-mat_status[11];
 	
+	mat_door_status += (MAT_12_PIN & (1<<MAT_12))?((mat_door_status==255)?0:1):-mat_door_status;
+	
 }
 
 
@@ -53,6 +59,8 @@ void mat_read(){
 void mat_check(){
 	
 	mat_read();
+	
+	//check buy
 	
 	for(uint8_t i=0; i<6;i++){
 		
@@ -77,6 +85,8 @@ void mat_check(){
 		
 	}
 	
+	//check empty
+	
 	for(uint8_t i=6; i<12;i++){
 		
 		if(mat_status[i]==254){
@@ -94,6 +104,29 @@ void mat_check(){
 			
 		}
 		
+	}
+	
+	//check door
+	
+	if(mat_door_status==254){
+		if(mat_door == 0){
+			mat_door = 1;	//just opened
+			char tmp[20];
+			strcpy(tmp, "/o/d/");	//out,door
+			itoa(mat_door,tmp+strlen(tmp),10);
+			strcpy(tmp+strlen(tmp), "\r\n");
+			uart_puts(tmp);
+		}
+	}
+	else{
+		if(mat_door != 0){
+			mat_door = 0;	//just closed
+			char tmp[20];
+			strcpy(tmp, "/o/d/");	//out,door
+			itoa(mat_door,tmp+strlen(tmp),10);
+			strcpy(tmp+strlen(tmp), "\r\n");
+			uart_puts(tmp);
+		}
 	}
 	
 	

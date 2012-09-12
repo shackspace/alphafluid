@@ -42,6 +42,11 @@
 #define MAT_7_PIN	PINB
 #define MAT_7		PB3
 
+#define MAT_DOOR_PIN	PINC
+#define MAT_DOOR		PC0
+
+
+
 #define MAT_COUNTER_ADDRESS 0
 
 void mat_init();
