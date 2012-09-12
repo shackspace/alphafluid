@@ -13,8 +13,8 @@ import conf
 import traceback
 from tools import *
 
-soundlist = ["dank.wav", "zelda.wav", "suit.wav", "hlbroken.wav"]
-ambientlist = ["alien_blipper.wav", "computalk1.wav", "noise2.mp3", "computalk2.wav", "steamburst1.wav"]
+#soundlist = ["dank.wav", "zelda.wav", "suit.wav", "hlbroken.wav"]
+#ambientlist = ["alien_blipper.wav", "computalk1.wav", "noise2.mp3", "computalk2.wav", "steamburst1.wav"]
 
 nextambient = time.time() + 10
 
@@ -138,6 +138,15 @@ def parse(line, conn):
 		log("welcomed client")
 		mat_send_values(conn)
 		mat_send_mention(conn)
+	elif line[3] == 'd':	#door
+		if(line[5] == 0):
+			log("Door Closed")
+			mat_play(random.choice(get_sounds("randomsounds")), 5)
+		else:
+			log("Door Opened")
+			mat_play(random.choice(get_sounds("randomsounds")), 5)
+
+
 	line = ""
 	return
 
