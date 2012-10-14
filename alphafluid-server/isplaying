@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "mpc; exit" | nc 10.42.10.27 23 | grep "playing"

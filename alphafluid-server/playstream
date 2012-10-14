@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "mpc clear; mpc add http://mpd.shack:8003/mpd.ogg; mpc play; exit" | nc 10.42.10.27 23

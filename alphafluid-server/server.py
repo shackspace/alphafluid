@@ -17,6 +17,7 @@ from tools import *
 #ambientlist = ["alien_blipper.wav", "computalk1.wav", "noise2.mp3", "computalk2.wav", "steamburst1.wav"]
 
 nextambient = time.time() + 10
+nextcheckplaying = time.time() + 2
 
 tw = twitterfluid.twitterfluid()
 running = True
@@ -39,13 +40,37 @@ signal.signal(signal.SIGINT, handler)
 def get_sounds(value):
 	return conf.read("sound.cfg",value).split(",")
 
+def mat_checkplaying():
+	check = subprocess.Popen(["./isplaying"], stdout=subprocess.PIPE, shell=True)
+	check.wait()
+	res = check.stdout.readline()
+	if res.startswith("[playing]"):
+		return
+	
+	subprocess.Popen(["./set_volume 10"], stdout=subprocess.PIPE, shell=True)
+	
+	subprocess.Popen(["./playstream"], stdout=subprocess.PIPE, shell=True)
+
 def mat_play(file, volume):
+	check = subprocess.Popen(["./isplaying"], stdout=subprocess.PIPE, shell=True)
+	check.wait()
+	res = check.stdout.readline()
+	if res.startswith("[playing]"):
+		print "skipping sound, something's already playing"
+		return
+	
+	
 	subprocess.Popen(["./set_volume "+str(volume)], stdout=subprocess.PIPE, shell=True)
 	subprocess.Popen(["./play_remote "+file], stdout=subprocess.PIPE, shell=True)
 
 
 def mat_checkambient():
 	global nextambient
+	global nextcheckplaying
+	if (time.time() > nextcheckplaying):
+		nextcheckplaying = time.time() + 2
+		if (mat_checkplaying()):
+			return
 	if (time.time() > nextambient):
 		rnd = random.randint(5*60,15*60)
 		nextambient = time.time() + rnd 
