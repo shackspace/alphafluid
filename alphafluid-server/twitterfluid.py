@@ -43,9 +43,9 @@ class twitterfluid(threading.Thread):
 				print "checking mentions ",
 				self.lastmentionchanged = 0
 				ment = self.fetch_mention()
-				print "current: " + ment
+				print "current: " + ment.encode('ascii','ignore')
 				if self.lastmentionchanged:
-					print "sending mention: " + ment
+					print "sending mention: " + ment.encode('ascii','ignore')
 				try:
 					self.connection.send("/i/t/"+ment.encode('ascii','ignore')+"\r\n")
 				except:

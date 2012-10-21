@@ -1,0 +1,57 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          alphafluid
+# Required-Start:    $remote_fs $syslog 
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start the alphafluid deamon
+# Description:       Start the alphafluid deamon for controlling and monitoring the shackspace matomat
+### END INIT INFO
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+AF_PATH=/home/alphafluid/alphafluid/alphafluid-server/
+AF_USER=alphafluid
+
+AF_SCREENNAME="af_script"
+AF_SCREENNAME2="af_http"
+
+. /lib/lsb/init-functions
+
+do_start () {
+	# Message should end with a newline since kFreeBSD may
+	# print more stuff (see #323749)
+	log_action_msg "Will start"
+	
+	screen -dmS $AF_SCREENNAME su - $AF_USER -c $AF_PATH/startscript
+	cd $AF_PATH/sounds
+	screen -dmS $AF_SCREENNAME2 python -m SimpleHTTPServer 80
+}
+
+do_stop () {
+	log_action_msg "Will now stop"
+	kill `pgrep -u alphafluid`
+	kill `pgrep -u root -f SimpleHTTP`
+}
+
+case "$1" in
+  start)
+  do_start
+	;;
+  restart)
+  do_stop
+  do_start
+    ;;
+  reload|force-reload)
+	echo "Error: argument '$1' not supported" >&2
+	exit 3
+	;;
+  stop)
+	do_stop
+	;;
+  *)
+	echo "Usage: $0 start|stop|restart" >&2
+	exit 3
+	;;
+esac

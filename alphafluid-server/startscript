@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#su alphafluid
+cd /home/alphafluid/alphafluid/alphafluid-server
+
+while true
+do
+	python server.py
+	sleep 5
+done

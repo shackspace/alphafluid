@@ -68,14 +68,14 @@ def mat_checkambient():
 	global nextambient
 	global nextcheckplaying
 	if (time.time() > nextcheckplaying):
-		nextcheckplaying = time.time() + 2
+		nextcheckplaying = time.time() + 5
 		if (mat_checkplaying()):
 			return
 	if (time.time() > nextambient):
 		rnd = random.randint(5*60,15*60)
 		nextambient = time.time() + rnd 
 		sound = random.choice(get_sounds("randomsounds"))
-		mat_play(sound, 3)
+		mat_play(sound, 1)
 		print "played ambient sound: " + sound + ", next after: " + str(rnd)
 
 def send_bought(st):
@@ -108,6 +108,7 @@ def lick_get_level(shaft):
 					return num
 	except:
 		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
+		return 42
 
 
 def mat_send_values(conn):
@@ -146,7 +147,7 @@ def parse(line, conn):
 	if line[3] == 'b':		#buy
 		send_bought(line[5])
 		log("Gekauft: " + line[5])
-		mat_play(random.choice(get_sounds("buysounds")), 10)
+		mat_play(random.choice(get_sounds("buysounds")), 5)
 		tw.tweet_bought(int(line[5]), "")
 		mat_send_values(conn)
 	elif line[3] == 'o': 	#offline buys (no connection)
@@ -166,10 +167,10 @@ def parse(line, conn):
 	elif line[3] == 'd':	#door
 		if(line[5] == '0'):
 			log("Door Closed")
-			mat_play(random.choice(get_sounds("closesounds")), 5)
+			mat_play(random.choice(get_sounds("closesounds")), 3)
 		else:
 			log("Door Opened")
-			mat_play(random.choice(get_sounds("opensounds")), 5)
+			mat_play(random.choice(get_sounds("opensounds")), 3)
 
 
 	line = ""
