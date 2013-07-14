@@ -19,7 +19,7 @@ from tools import *
 nextambient = time.time() + 10
 nextcheckplaying = time.time() + 2
 
-tw = twitterfluid.twitterfluid()
+#tw = twitterfluid.twitterfluid()
 running = True
 connected = False
 
@@ -29,8 +29,8 @@ apikey = conf.read('key.cfg','lick_api_key')
 mapping = (1,2,3,4,26,27)
 
 def handler(signum, frame):
-	tw.setDisconnected()
-	tw.stop()
+	#tw.setDisconnected()
+	#tw.stop()
 	running = False
 	print "Trying to stop!"
 
@@ -79,18 +79,21 @@ def mat_checkambient():
 		print "played ambient sound: " + sound + ", next after: " + str(rnd)
 
 def send_bought(st):
+	return 42	#temporarily disable lick interface
 	try:
 		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/sellProduct?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
 	except:
 		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def send_empty(st):
+	return 42	#temporarily disable lick interface
 	try:
 		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/schachtLeer?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]))
 	except:
 		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def lick_get_level(shaft):
+	return 42	#temporarily disable lick interface
 	try:
 		lines = urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/getFuellstand?automat_id=1&schacht_id="+str(shaft)).readlines()
 		for line in lines:
@@ -129,7 +132,8 @@ def mat_send_values(conn):
 
 def mat_send_mention(conn):
 	log("sending mentions")
-	txt = tw.fetch_mention()
+	txt = "twitter disabled"
+	#txt = tw.fetch_mention()
 	try:
 		conn.send("/i/t/"+txt.encode('ascii','ignore')+"\r\n")
 	except:
@@ -148,7 +152,7 @@ def parse(line, conn):
 		send_bought(line[5])
 		log("Gekauft: " + line[5])
 		mat_play(random.choice(get_sounds("buysounds")), 5)
-		tw.tweet_bought(int(line[5]), "")
+		#tw.tweet_bought(int(line[5]), "")
 		mat_send_values(conn)
 	elif line[3] == 'o': 	#offline buys (no connection)
 		send_bought(line[5])
@@ -157,7 +161,7 @@ def parse(line, conn):
 	elif line[3] == 'e':	#empty
 		send_empty(line[5])
 		log("Leer: " + line[5])
-		tw.tweet_empty(int(line[5]))
+		#tw.tweet_empty(int(line[5]))
 
 	elif line[3] == 'i':	#login
 		conn.send("/i/w/\r\n")
@@ -186,7 +190,7 @@ server_address = ('', 1337)
 sock.bind(server_address)
 print 'starting up on %s port %s' % sock.getsockname()
 sock.listen(1)
-tw.start()
+#tw.start()
 while running:
 	print 'waiting for a connection'
 	log('waiting for a connection')
@@ -194,7 +198,7 @@ while running:
 	line = ""
 	print 'client connected:', client_address
 	log("CONNECT " + client_address[0])
-	tw.setConnection(connection)
+	#tw.setConnection(connection)
 	connected = True;
 	while (running and connected):
 		data = connection.recv(1)
@@ -210,7 +214,7 @@ while running:
 		else:
 			connected = False
 			break
-	tw.setDisconnected()
+	#tw.setDisconnected()
 	print 'client disconnected:', client_address
 	log("DISCONNECT " + client_address[0])
 	connection.close()
