@@ -79,21 +79,18 @@ def mat_checkambient():
 		print "played ambient sound: " + sound + ", next after: " + str(rnd)
 
 def send_bought(st):
-	return 42	#temporarily disable lick interface
 	try:
 		urllib2.urlopen("http://ora2.tutschonwieder.net:8081/apex/tensai-prod/put/sellproduct/"+apikey+"/1/" + str(mapping[int(st)]) + "/1")
 	except:
 		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def send_empty(st):
-	return 42	#temporarily disable lick interface
 	try:
 		urllib2.urlopen("http://ora2.tutschonwieder.net:8081/apex/tensai-prod/put/schachtleer/"+apikey+"/1/" + str(mapping[int(st)]))
 	except:
 		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def lick_get_level(shaft):
-	return 42	#temporarily disable lick interface
 	try:
 		lines = urllib2.urlopen("http://ora2.tutschonwieder.net:8081/apex/tensai-prod/get/fuellstand/1/"+str(shaft)).readlines()
 		for line in lines:
