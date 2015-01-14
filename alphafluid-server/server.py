@@ -80,19 +80,20 @@ def mat_checkambient():
 
 def send_bought(st):
 	try:
-		urllib2.urlopen("http://ora2.tutschonwieder.net:8081/apex/tensai-prod/put/sellproduct/"+apikey+"/1/" + str(mapping[int(st)]) + "/1")
+		#Beispiel-Aufruf mit HTTPS: https://ora2.tutschonwieder.net:8443/apex/tensai-prod/v1/put/sellproduct/"+apikey+"/1/" + str(mapping[int(st)]) + "/1"
+		urllib2.urlopen("http://ora2.tutschonwieder.net:8081/apex/tensai-prod/v1/put/sellproduct/"+apikey+"/1/" + str(mapping[int(st)]) + "/1")
 	except:
 		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def send_empty(st):
 	try:
-		urllib2.urlopen("http://ora2.tutschonwieder.net:8081/apex/tensai-prod/put/schachtleer/"+apikey+"/1/" + str(mapping[int(st)]))
+		urllib2.urlopen("http://ora2.tutschonwieder.net:8081/apex/tensai-prod/v1/put/schachtleer/"+apikey+"/1/" + str(mapping[int(st)]))
 	except:
 		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def lick_get_level(shaft):
 	try:
-		lines = urllib2.urlopen("http://ora2.tutschonwieder.net:8081/apex/tensai-prod/get/fuellstand/1/"+str(shaft)).readlines()
+		lines = urllib2.urlopen("http://ora2.tutschonwieder.net:8081/apex/tensai-prod/v1/get/fuellstand/1/"+str(shaft)).readlines()
 		for line in lines:
 			print line
 			#if line.startswith('{"\"tensai-prod\".lick_api.getfuellstand(/*in:automat_id*/:1,/*in:schacht_id*/:2)":'):
