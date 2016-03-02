@@ -55,19 +55,19 @@ def mat_checkambient():
 
 def send_bought(st):
 	try:
-		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/sellProduct?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
+		urllib2.urlopen("https://ora3.tutschonwieder.net/ords/lick_prod/v0/sellProduct?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]) + "&anzahl=1")
 	except:
 		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def send_empty(st):
 	try:
-		urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/schachtLeer?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]))
+		urllib2.urlopen("https://ora3.tutschonwieder.net/ords/lick_prod/v0/schachtLeer?apikey="+apikey+"&automat_id=1&schacht_id=" + str(mapping[int(st)]))
 	except:
 		log("!!!!!!!!!!!!!!!!!!!!!! LICK DOWN !!!!!!!!!!!!!!!!!!!!!")
 
 def lick_get_level(shaft):
 	try:
-		lines = urllib2.urlopen("https://appserv.tutschonwieder.net:8443/apex/prod/getFuellstand?automat_id=1&schacht_id="+str(shaft)).readlines()
+		lines = urllib2.urlopen("https://ora3.tutschonwieder.net/ords/lick_prod/v0/getFuellstand?automat_id=1&schacht_id="+str(shaft)).readlines()
 		for line in lines:
 			print line
 			#if line.startswith('{"\"tensai-prod\".lick_api.getfuellstand(/*in:automat_id*/:1,/*in:schacht_id*/:2)":'):
